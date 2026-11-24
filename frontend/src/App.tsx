@@ -83,6 +83,17 @@ export default function App() {
     api.me().then(setMe, (e: Error) => setError(e.message))
   }, [])
 
+  if (error === 'unauthenticated') {
+    return (
+      <div className="mx-auto mt-24 max-w-sm card space-y-3">
+        <h1 className="text-lg font-semibold">Your session has expired</h1>
+        <p className="text-sm text-slate-600">Sign in again to continue.</p>
+        <a className="btn btn-primary" href="/cdn-cgi/access/logout">
+          Sign in again
+        </a>
+      </div>
+    )
+  }
   if (error) return <p className="p-8 text-red-600">Couldn’t load your profile: {error}</p>
   if (!me) return <p className="p-8 text-slate-500">Loading…</p>
 

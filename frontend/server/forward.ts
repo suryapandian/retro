@@ -26,8 +26,11 @@ export const verifyAccessJwt: VerifyAccessJwt = async (token, env) => {
   }
   try {
     const { payload } = await jwtVerify(token, jwks, { issuer: `https://${domain}`, audience: env.ACCESS_AUD });
+    if (typeof payload.email !== "string") console.warn("Access JWT has no email claim");
     return typeof payload.email === "string" ? payload.email : null;
-  } catch {
+  } catch (e) {
+    const err = e as { code?: string; claim?: string; message?: string };
+    console.warn(`Access JWT rejected: ${err.code ?? "error"} ${err.claim ?? ""} ${err.message ?? ""}`);
     return null;
   }
 };
@@ -66,7 +69,10 @@ export async function forwardApi(request: Request, env: ForwardEnv, verify: Veri
       return Response.json({ error: "Cloudflare Access is not configured" }, { status: 500 });
     }
     const token = request.headers.get("Cf-Access-Jwt-Assertion") ?? cookie(request, "CF_Authorization");
-    if (!token) return unauthorized();
+    if (!token) {
+      console.warn("No Access JWT on request");
+      return unauthorized();
+    }
     email = await verify(token, env);
     if (!email) return unauthorized();
   }

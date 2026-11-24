@@ -1,0 +1,12 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "retro-truelayer",
+  "pages_build_output_dir": "./dist",
+  "compatibility_date": "2026-11-01",
+  "services": [{ "binding": "RETRO_WORKER", "service": "retro-worker" }],
+  "vars": {
+    // Fill these in from the Cloudflare Zero Trust dashboard (see README). They are not secrets.
+    "ACCESS_TEAM_DOMAIN": "surya-roster.cloudflareaccess.com",
+    "ACCESS_AUD": "7229f0e0e5b50a03393613bf91d995ed7a60795ebf3d4db9fe8f2cc26d5d8c56"
+  }
+}

@@ -1,0 +1,4 @@
+# Copy to .dev.vars for local development. Never set this in production.
+# Identifies you by the retro_dev_user cookie (set via /api/dev/login?as=you@example.com)
+# instead of Cloudflare Access.
+DEV_IDENTITY=true

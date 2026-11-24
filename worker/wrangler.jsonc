@@ -1,0 +1,19 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "retro-worker",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-11-01",
+  // Only reachable through the Pages project's service binding, which enforces Cloudflare Access.
+  "workers_dev": false,
+  "preview_urls": false,
+  "durable_objects": {
+    "bindings": [
+      { "name": "RETRO_ROOM", "class_name": "RetroRoom" },
+      { "name": "TEAM", "class_name": "Team" }
+    ]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["RetroRoom", "Team"] }],
+  "observability": {
+    "logs": { "enabled": true, "invocation_logs": true }
+  }
+}
